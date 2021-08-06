@@ -23,6 +23,7 @@ var HyperVHost_PUBIPName_var = '${HyperVHostName_var}-PIP'
 var HyperVHostConfigArchiveFolder = '.'
 var HyperVHostConfigArchiveFileName = 'HyperVHostConfig.zip'
 var HyperVHostConfigURL = 'https://github.com/SMBrook/Lab-Deployment-in-Azure/blob/master/HyperVHostConfig.zip?raw=true'
+var ConfigureVMIPConfigURL = 'https://github.com/SMBrook/Lab-Deployment-in-Azure/blob/master/ConfigureVMIP.zip?raw=true'
 var HyperVHostInstallHyperVScriptFolder = '.'
 var HyperVHostInstallHyperVScriptFileName = 'InstallHyperV.ps1'
 var HyperVHostInstallHyperVURL = 'https://raw.githubusercontent.com/SMBrook/Lab-Deployment-in-Azure/master/InstallHyperV.ps1'
@@ -173,5 +174,32 @@ resource HyperVHostName_HyperVHostConfig 'Microsoft.Compute/virtualMachines/exte
   }
   dependsOn: [
     HyperVHostName_InstallHyperV
+  ]
+}
+
+resource ConfigureVMIP 'Microsoft.Compute/virtualMachines/extensions@2017-12-01' = {
+  name: 'ConfigureVMIP'
+  location: resourceGroup().location
+  tags: {
+    displayName: 'ConfigureVMIP'
+  }
+  properties: {
+    publisher: 'Microsoft.Powershell'
+    type: 'DSC'
+    typeHandlerVersion: '2.9'
+    autoUpgradeMinorVersion: true
+    settings: {
+      configuration: {
+        url: concat(ConfigureVMIPConfigURL)
+        script: 'ConfigureVMIP.ps1'
+        function: 'Main'
+      }
+      configurationArguments: {
+        nodeName: HyperVHostName_var
+      }
+    }
+  }
+  dependsOn: [
+    HyperVHostName_HyperVHostConfig
   ]
 }
