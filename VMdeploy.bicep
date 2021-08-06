@@ -4,8 +4,8 @@ param hypervHostDnsName string = 'hypervhostupdateme'
 @minLength(1)
 param HyperVHostAdminUserName string = 'rootadmin'
 
-@minLength(1)
-param HyperVHostAdminPassword string = 'pass@123demo'
+@secure()
+param HyperVHostAdminPassword string
 
 var OnPremVNETPrefix = '10.0.0.0/16'
 var OnPremVNETSubnet1Name = 'VMHOST'
@@ -22,10 +22,10 @@ var HyperVHostNicName_var = '${HyperVHostName_var}-NIC'
 var HyperVHost_PUBIPName_var = '${HyperVHostName_var}-PIP'
 var HyperVHostConfigArchiveFolder = '.'
 var HyperVHostConfigArchiveFileName = 'HyperVHostConfig.zip'
-var HyperVHostConfigURL = 'https://github.com/weeyin83/Lab-Deployment-in-Azure/blob/master/HyperVHostConfig.zip?raw=true'
+var HyperVHostConfigURL = 'https://github.com/SMBrook/Lab-Deployment-in-Azure/blob/master/HyperVHostConfig.zip?raw=true'
 var HyperVHostInstallHyperVScriptFolder = '.'
 var HyperVHostInstallHyperVScriptFileName = 'InstallHyperV.ps1'
-var HyperVHostInstallHyperVURL = 'https://raw.githubusercontent.com/weeyin83/Lab-Deployment-in-Azure/master/InstallHyperV.ps1'
+var HyperVHostInstallHyperVURL = 'https://raw.githubusercontent.com/SMBrook/Lab-Deployment-in-Azure/master/InstallHyperV.ps1'
 
 resource OnPremVNET 'Microsoft.Network/virtualNetworks@2018-12-01' = {
   name: 'OnPremVNET'
