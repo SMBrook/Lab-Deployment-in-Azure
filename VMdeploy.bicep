@@ -178,6 +178,7 @@ resource HyperVHostName_HyperVHostConfig 'Microsoft.Compute/virtualMachines/exte
 }
 
 resource ConfigureVMIP 'Microsoft.Compute/virtualMachines/extensions@2017-12-01' = {
+  parent: HyperVHostName
   name: 'ConfigureVMIP'
   location: resourceGroup().location
   tags: {
